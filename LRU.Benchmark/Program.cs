@@ -1,12 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
+using LRU.Benchmark;
 
-namespace LRU.Benchmark
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var summary = BenchmarkRunner.Run<LeastRecentlyUsedCacheBenchmark>();
-        }
-    }
-}
+BenchmarkRunner.Run<LeastRecentlyUsedCacheBenchmark>();

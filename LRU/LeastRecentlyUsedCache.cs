@@ -72,10 +72,7 @@ namespace LRU
 
         public TValue this[TKey key]
         {
-            get
-            {
-                return Get(key);
-            }
+            get => Get(key);
             set => Put(key, value);
         }
 
@@ -121,13 +118,24 @@ namespace LRU
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             if (array == null)
+            {
                 throw new ArgumentNullException(nameof(array));
+            }
+
             if (array.Rank > 1)
+            {
                 throw new ArgumentException("array is multidimensional.");
+            }
+
             if (arrayIndex < 0 || arrayIndex > array.Length)
+            {
                 throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+            }
+
             if (array.Length - arrayIndex < Count)
+            {
                 throw new ArgumentException("Not enough elements after arrayIndex in the destination array.");
+            }
 
             lock (_lockObj)
             {
@@ -211,7 +219,7 @@ namespace LRU
         private void RemoveLast()
         {
             var lastNode = _order.Last;
-            _cacheValue.Remove(lastNode.Value);
+            _cacheValue.Remove(lastNode!.Value);
             _cacheNode.Remove(lastNode.Value);
             _order.RemoveLast();
         }

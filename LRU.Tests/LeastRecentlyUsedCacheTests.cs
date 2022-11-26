@@ -14,7 +14,7 @@ namespace LRU.Tests
         [TestCase(0)]
         public void Should_Return_ArgumentException_When_Capacity_Is_Invalid(int capacity)
         {
-            Action act = () => new LeastRecentlyUsedCache<int, int>(capacity);
+            var act = () => new LeastRecentlyUsedCache<int, int>(capacity);
 
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Must be greater than 0. (Parameter 'capacity')");
@@ -30,14 +30,14 @@ namespace LRU.Tests
 
             for (var i = 0; i < capacity + 1; i++)
             {
-                cache.Add(i, i + new System.Random().Next(10));
+                cache.Add(i, i + new Random().Next(10));
             }
 
             cache.TryGetValue(capacity, out var validPosition);
 
             validPosition.Should().BeGreaterThan(0);
 
-            var result = cache.TryGetValue(capacity + 1, out var invalidPosition);
+            var result = cache.TryGetValue(capacity + 1, out _);
 
             result.Should().BeFalse();
         }
@@ -87,11 +87,11 @@ namespace LRU.Tests
 
             cache.Remove(2);
 
-            var result = cache.TryGetValue(2, out var maybeRemovedItem);
+            var result = cache.TryGetValue(2, out _);
 
             result.Should().BeFalse();
 
-            var result2 = cache.TryGetValue(1, out var maybeResult);
+            var result2 = cache.TryGetValue(1, out _);
             result2.Should().BeTrue();
         }
 
@@ -159,9 +159,8 @@ namespace LRU.Tests
             {
                 { 1, 9 }
             };
-
-            KeyValuePair<int, int>[] arrayResult = null;
-            Action act = () => cache.CopyTo(arrayResult, 0);
+            
+            var act = () => cache.CopyTo(null!, 0);
 
             act.Should().Throw<ArgumentNullException>();
         }
