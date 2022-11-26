@@ -1,8 +1,11 @@
 # LRU
 
+![Build status](https://github.com/ricardotondello/LRU/actions/workflows/dotnet.yml/badge.svg?branch=main)
+
 This is a thread safe caching strategy implementation of Least Recently Used (LRU). It defines the policy to evict elements from the cache to make room for new elements when the cache is full, meaning it discards the least recently used items first.
 
 A Least Recently Used (LRU) Cache organizes items in order of use, allowing you to quickly identify which item hasn't been used for the longest amount of time.
+
 
 ## How to use it
 
