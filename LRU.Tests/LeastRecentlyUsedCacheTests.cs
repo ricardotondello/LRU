@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 
+[assembly: ExcludeFromCodeCoverage]
 namespace LRU.Tests
 {
     public class LeastRecentlyUsedCacheTests
@@ -154,6 +156,25 @@ namespace LRU.Tests
         }
         
         [Test]
+        public void Should_GetEnumeratorOnIEnumerable_Items()
+        {
+            IEnumerable AsWeakEnumerable(IEnumerable source)
+            {
+                foreach (object o in source)
+                {
+                    yield return o;
+                }
+            }
+            var cache = new LeastRecentlyUsedCache<int, int>(1);
+
+            IEnumerable enumerableCache = AsWeakEnumerable(cache);
+            var result = enumerableCache.Cast<KeyValuePair<int, int>>().Take(1).ToArray();
+            result.GetEnumerator().MoveNext();
+            result.GetEnumerator().Should().NotBeNull();
+                
+        }
+        
+        [Test]
         public void Should_Throw_ArgumentNullException_When_CopyTo_Is_Called_With_Null_Argument()
         {
             var cache = new LeastRecentlyUsedCache<int, int>(1)
@@ -181,7 +202,7 @@ namespace LRU.Tests
                 new KeyValuePair<int, int>(1,2)
             };
 
-            Action act = () => cache.CopyTo(arrayResult, invalidIndex);
+            var act = () => cache.CopyTo(arrayResult, invalidIndex);
 
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
@@ -226,7 +247,7 @@ namespace LRU.Tests
             arrayResult.All(x => cache.Keys.Contains(x.Key) && cache.Values.Contains(x.Value)).Should().BeTrue();
 
         }
-
+        
         [Test]
         public void Should_IsReadOnly_Be_False()
         {

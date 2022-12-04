@@ -108,11 +108,6 @@ namespace LRU
                 throw new ArgumentNullException(nameof(array));
             }
 
-            if (array.Rank > 1)
-            {
-                throw new ArgumentException("array is multidimensional.");
-            }
-
             if (arrayIndex < 0 || arrayIndex > array.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(arrayIndex));
