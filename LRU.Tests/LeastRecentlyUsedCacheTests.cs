@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
@@ -151,7 +152,7 @@ namespace LRU.Tests
             enumeratorValue.Current.Value.Should().Be(8);
             enumeratorValue.Dispose();
         }
-
+        
         [Test]
         public void Should_Throw_ArgumentNullException_When_CopyTo_Is_Called_With_Null_Argument()
         {
@@ -202,7 +203,7 @@ namespace LRU.Tests
                 new KeyValuePair<int, int>(1,2)
             };
 
-            Action act = () => cache.CopyTo(arrayResult, arrayIndex);
+            var act = () => cache.CopyTo(arrayResult, arrayIndex);
 
             act.Should().Throw<ArgumentException>().WithMessage("Not enough elements after arrayIndex in the destination array.");
         }
@@ -224,6 +225,32 @@ namespace LRU.Tests
 
             arrayResult.All(x => cache.Keys.Contains(x.Key) && cache.Values.Contains(x.Value)).Should().BeTrue();
 
+        }
+
+        [Test]
+        public void Should_IsReadOnly_Be_False()
+        {
+            var cache = new LeastRecentlyUsedCache<int, int>(1) {new KeyValuePair<int, int>(1, 1)};
+            cache.IsReadOnly.Should().BeFalse();
+        }
+        
+        [Test]
+        public void Should_ReturnValues_When_Get_Or_Set_The_Element_With_Specified_Key()
+        {
+            var cache = new LeastRecentlyUsedCache<int, int>(1) {new KeyValuePair<int, int>(1, 1)};
+            
+            cache[1] = 2;
+            cache[1].Should().Be(2);
+        }
+        
+        [Test]
+        [TestCase(2)]
+        public void Should_Not_Remove_Item_From_Cache(int capacity)
+        {
+            var cache = new LeastRecentlyUsedCache<int, decimal>(capacity) { { 1, 1 }, { 2, 2 } };
+            var key = new KeyValuePair<int, decimal>(3, 3m);
+            var result = cache.Remove(key);
+            result.Should().BeFalse();
         }
     }
 }
