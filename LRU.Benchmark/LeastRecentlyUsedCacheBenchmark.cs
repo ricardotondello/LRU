@@ -1,5 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
 using BenchmarkDotNet.Attributes;
 
+[assembly: ExcludeFromCodeCoverage]
 namespace LRU.Benchmark
 {
     [MemoryDiagnoser]
