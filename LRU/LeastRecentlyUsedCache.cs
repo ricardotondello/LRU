@@ -62,7 +62,7 @@ namespace LRU
                 return false;
             }
 
-            MoveToHead(entry);
+            Should_MoveToHead(entry);
 
             lock (entry)
             {
@@ -72,9 +72,9 @@ namespace LRU
             return true;
         }
 
-        public void Add(TKey key, TValue value) => Put(key, value);
+        public void Add(TKey key, TValue value) => Should_Put(key, value);
 
-        public void Add(KeyValuePair<TKey, TValue> item) => Put(item.Key, item.Value);
+        public void Add(KeyValuePair<TKey, TValue> item) => Should_Put(item.Key, item.Value);
 
         public void Clear()
         {
@@ -90,7 +90,7 @@ namespace LRU
         public TValue this[TKey key]
         {
             get => TryGetValue(key, out var value) ? value : default;
-            set => Put(key, value);
+            set => Should_Put(key, value);
         }
 
         public ICollection<TKey> Keys => _cacheValue.Keys;
@@ -132,9 +132,9 @@ namespace LRU
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() =>
             _cacheValue.Select(x => new KeyValuePair<TKey, TValue>(x.Key, x.Value.Value)).GetEnumerator();
 
-        public bool Remove(TKey key) => RemoveByKey(key);
+        public bool Remove(TKey key) => Should_RemoveByKey(key);
 
-        public bool Remove(KeyValuePair<TKey, TValue> item) => RemoveByKey(item.Key);
+        public bool Remove(KeyValuePair<TKey, TValue> item) => Should_RemoveByKey(item.Key);
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -148,7 +148,7 @@ namespace LRU
 
         #region Private Methods
         
-        private void MoveToHead(LinkedNode<TKey, TValue> entry)
+        private void Should_MoveToHead(LinkedNode<TKey, TValue> entry)
         {
             if (entry == _head)
             {
@@ -157,12 +157,12 @@ namespace LRU
 
             lock (_lockObj)
             {
-                RemoveFromLink(entry);
-                AddToHead(entry);
+                Should_RemoveFromLink(entry);
+                Should_AddToHead(entry);
             }
         }
 
-        private void RemoveFromLink(LinkedNode<TKey, TValue> entry)
+        private void Should_RemoveFromLink(LinkedNode<TKey, TValue> entry)
         {
             var next = entry.Next;
             var prev = entry.Prev;
@@ -188,7 +188,7 @@ namespace LRU
             }
         }
 
-        private void AddToHead(LinkedNode<TKey, TValue> entry)
+        private void Should_AddToHead(LinkedNode<TKey, TValue> entry)
         {
             entry.Prev = null;
             entry.Next = _head;
@@ -201,7 +201,7 @@ namespace LRU
             _head = entry;
         }
 
-        private void Put(TKey key, TValue value)
+        private void Should_Put(TKey key, TValue value)
         {
             if (!_cacheValue.TryGetValue(key, out var entry))
             {
@@ -239,12 +239,12 @@ namespace LRU
                 }
             }
 
-            MoveToHead(entry);
+            Should_MoveToHead(entry);
 
             _tail ??= _head;
         }
 
-        private bool RemoveByKey(TKey key)
+        private bool Should_RemoveByKey(TKey key)
         {
             if (!_cacheValue.TryGetValue(key, out var entry))
             {
@@ -253,7 +253,7 @@ namespace LRU
 
             lock (_lockObj)
             {
-                RemoveFromLink(entry);
+                Should_RemoveFromLink(entry);
                 _cacheValue.Remove(entry.Key);
                 --Count;
             }

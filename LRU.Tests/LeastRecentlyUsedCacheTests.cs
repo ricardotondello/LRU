@@ -46,7 +46,7 @@ namespace LRU.Tests
         }
 
 
-        public static IEnumerable<TestCaseData> ExpectedValueTest()
+        public static IEnumerable<TestCaseData> Should_ExpectedValueTest()
         {
             yield return new TestCaseData(2, new[,]
             {
@@ -67,7 +67,7 @@ namespace LRU.Tests
         }
 
         [Test]
-        [TestCaseSource(nameof(ExpectedValueTest))]
+        [TestCaseSource(nameof(Should_ExpectedValueTest))]
         public void Should_Return_Expected_Value(int capacity, int[,] values, int key, int expected)
         {
             var cache = new LeastRecentlyUsedCache<int, int>(capacity);
@@ -165,9 +165,8 @@ namespace LRU.Tests
                     yield return o;
                 }
             }
-            var cache = new LeastRecentlyUsedCache<int, int>(1);
-
-            IEnumerable enumerableCache = AsWeakEnumerable(cache);
+            
+            var enumerableCache = AsWeakEnumerable(new LeastRecentlyUsedCache<int, int>(1));
             var result = enumerableCache.Cast<KeyValuePair<int, int>>().Take(1).ToArray();
             result.GetEnumerator().MoveNext();
             result.GetEnumerator().Should().NotBeNull();
@@ -244,21 +243,20 @@ namespace LRU.Tests
             var arrayResult = new KeyValuePair<int, int>[4];
             cache.CopyTo(arrayResult, 0);
 
-            arrayResult.All(x => cache.Keys.Contains(x.Key) && cache.Values.Contains(x.Value)).Should().BeTrue();
+            arrayResult.All(x => cache.ContainsKey(x.Key) && cache.Values.Contains(x.Value)).Should().BeTrue();
 
         }
         
         [Test]
         public void Should_IsReadOnly_Be_False()
         {
-            var cache = new LeastRecentlyUsedCache<int, int>(1) {new KeyValuePair<int, int>(1, 1)};
-            cache.IsReadOnly.Should().BeFalse();
+            new LeastRecentlyUsedCache<int, int>(1) {new(1, 1)}.IsReadOnly.Should().BeFalse();
         }
         
         [Test]
         public void Should_ReturnValues_When_Get_Or_Set_The_Element_With_Specified_Key()
         {
-            var cache = new LeastRecentlyUsedCache<int, int>(1) {new KeyValuePair<int, int>(1, 1)};
+            var cache = new LeastRecentlyUsedCache<int, int>(1) {new(1, 1)};
             
             cache[1] = 2;
             cache[1].Should().Be(2);

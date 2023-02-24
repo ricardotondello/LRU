@@ -10,7 +10,7 @@ namespace LRU.Benchmark
         private static readonly LeastRecentlyUsedCache<int, int> Cache = new (30);
         
         [Benchmark]
-        public void Promote()
+        public static void Should_Promote()
         {
             for (var i = 1; i < 10_000; i++)
             {
