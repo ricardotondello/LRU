@@ -52,14 +52,15 @@ jobs:
       #if: ${{ github.ref == 'refs/heads/main' }}
       #run: reportgenerator -reports:".\coverage\**\coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
       
-     - name: ReportGenerator
-       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.19
-        with:
-          reports: 'coverage.xml'
-          targetdir: 'coveragereport'
-          reporttypes: 'Html'
-          verbosity: 'Info'
-          toolpath: 'reportgeneratortool'
+    - name: ReportGenerator
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.19
+      if: ${{ github.ref == 'refs/heads/main' }}
+      with:
+        reports: 'coverage.xml'
+        targetdir: 'coveragereport'
+        reporttypes: 'Html'
+        verbosity: 'Info'
+        toolpath: 'reportgeneratortool'
       
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
