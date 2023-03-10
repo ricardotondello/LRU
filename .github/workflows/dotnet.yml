@@ -48,9 +48,18 @@ jobs:
         recreate: true
         path: code-coverage-results.md
      
-    - name: Unit Tests Report Generation
+    #- name: Unit Tests Report Generation
       #if: ${{ github.ref == 'refs/heads/main' }}
-      run: dotnet reportgenerator -reports:".\coverage\**\coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
+      #run: reportgenerator -reports:".\coverage\**\coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
+      
+     - name: ReportGenerator
+       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.19
+        with:
+          reports: 'coverage.xml'
+          targetdir: 'coveragereport'
+          reporttypes: 'Html'
+          verbosity: 'Info'
+          toolpath: 'reportgeneratortool'
       
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
