@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -11,6 +12,8 @@ namespace LRU.Tests
 {
     public class LeastRecentlyUsedCacheTests
     {
+        private readonly object _lock = new();
+        
         [Test]
         [TestCase(null)]
         [TestCase(-1)]
@@ -46,7 +49,7 @@ namespace LRU.Tests
         }
 
 
-        public static IEnumerable<TestCaseData> ExpectedValueTest()
+        private static IEnumerable<TestCaseData> TestCaseSourceForExpectedValues()
         {
             yield return new TestCaseData(2, new[,]
             {
@@ -67,7 +70,7 @@ namespace LRU.Tests
         }
 
         [Test]
-        [TestCaseSource(nameof(ExpectedValueTest))]
+        [TestCaseSource(nameof(TestCaseSourceForExpectedValues))]
         public void Should_Return_Expected_Value(int capacity, int[,] values, int key, int expected)
         {
             var cache = new LeastRecentlyUsedCache<int, int>(capacity);
@@ -166,8 +169,9 @@ namespace LRU.Tests
                 }
             }
             var cache = new LeastRecentlyUsedCache<int, int>(1);
+            if (cache == null) throw new ArgumentNullException(nameof(cache));
 
-            IEnumerable enumerableCache = AsWeakEnumerable(cache);
+            var enumerableCache = AsWeakEnumerable(cache);
             var result = enumerableCache.Cast<KeyValuePair<int, int>>().Take(1).ToArray();
             result.GetEnumerator().MoveNext();
             result.GetEnumerator().Should().NotBeNull();
@@ -244,21 +248,22 @@ namespace LRU.Tests
             var arrayResult = new KeyValuePair<int, int>[4];
             cache.CopyTo(arrayResult, 0);
 
-            arrayResult.All(x => cache.Keys.Contains(x.Key) && cache.Values.Contains(x.Value)).Should().BeTrue();
+            arrayResult.All(x => cache.ContainsKey(x.Key) && cache.Values.Contains(x.Value)).Should().BeTrue();
 
         }
         
         [Test]
         public void Should_IsReadOnly_Be_False()
         {
-            var cache = new LeastRecentlyUsedCache<int, int>(1) {new KeyValuePair<int, int>(1, 1)};
+            var cache = new LeastRecentlyUsedCache<int, int>(1) {new(1, 1)};
+            if (cache == null) throw new ArgumentNullException(nameof(cache));
             cache.IsReadOnly.Should().BeFalse();
         }
         
         [Test]
         public void Should_ReturnValues_When_Get_Or_Set_The_Element_With_Specified_Key()
         {
-            var cache = new LeastRecentlyUsedCache<int, int>(1) {new KeyValuePair<int, int>(1, 1)};
+            var cache = new LeastRecentlyUsedCache<int, int>(1) {new(1, 1)};
             
             cache[1] = 2;
             cache[1].Should().Be(2);
@@ -272,6 +277,52 @@ namespace LRU.Tests
             var key = new KeyValuePair<int, decimal>(3, 3m);
             var result = cache.Remove(key);
             result.Should().BeFalse();
+        }
+        
+        [Test]
+        public async Task Should_Cache_Be_Thread_Safe()
+        {
+            const int key = 1;
+            var resultForTestingThreadSafe = 0;
+            var cache = new LeastRecentlyUsedCache<int, int>(2);
+            var isFirstTime = true;
+            
+            int Set(int i)
+            {
+                lock (_lock)
+                {
+                    if (isFirstTime)
+                    {
+                        isFirstTime = false;
+                    }
+
+                    resultForTestingThreadSafe = i;     
+                }
+                return i;
+            }
+
+            var tasks = Enumerable.Range(1, 1_000)
+                .Select(_ => Task.Run(() =>
+                    {
+                        var r = new Random();
+                        cache.Add(key, Set(r.Next(1, int.MaxValue)));
+                        return Task.CompletedTask;
+                    }
+                ))
+                .ToArray();
+
+            await Task.WhenAll(tasks);
+
+            cache.TryGetValue(key, out var result).Should().BeTrue();
+            result.Should().Be(resultForTestingThreadSafe);
+        }
+        
+        [Test]
+        public void Should_ReturnKeys_When_Get_Keys()
+        {
+            var cache = new LeastRecentlyUsedCache<int, int>(1) {new(1, 1)};
+
+            cache.Keys.Should().BeEquivalentTo(new List<int>{1});
         }
     }
 }
