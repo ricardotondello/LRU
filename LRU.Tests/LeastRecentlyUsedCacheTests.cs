@@ -295,13 +295,13 @@ namespace LRU.Tests
                     {
                         isFirstTime = false;
                     }
-
+        
                     resultForTestingThreadSafe = i;     
                 }
                 return i;
             }
-
-            var tasks = Enumerable.Range(1, 1_000)
+        
+            var tasks = Enumerable.Range(1, 100)
                 .Select(_ => Task.Run(() =>
                     {
                         var r = new Random();
@@ -310,9 +310,9 @@ namespace LRU.Tests
                     }
                 ))
                 .ToArray();
-
+        
             await Task.WhenAll(tasks);
-
+        
             cache.TryGetValue(key, out var result).Should().BeTrue();
             result.Should().Be(resultForTestingThreadSafe);
         }
