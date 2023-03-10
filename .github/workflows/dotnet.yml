@@ -17,27 +17,45 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
+    
     - name: Restore dependencies
       run: dotnet restore
+    
     - name: Build
       run: dotnet build --no-restore
+    
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+    
     - name: Code Coverage Report
       uses: irongut/CodeCoverageSummary@v1.3.0
+      if: github.event_name == 'pull_request'
       with:
         filename: coverage/**/coverage.cobertura.xml
         badge: true
         fail_below_min: true
         format: markdown
-        hide_branch_rate: false
+        hide_branch_rate: true
         hide_complexity: true
         indicators: true
         output: both
         thresholds: '80 90'
+    
     - name: Add Coverage PR Comment
       uses: marocchino/sticky-pull-request-comment@v2
       if: github.event_name == 'pull_request'
       with:
         recreate: true
         path: code-coverage-results.md
+     
+    - name: Unit Tests Report Generation
+      if: ${{ github.ref == 'refs/heads/main' }}
+      run: dotnet tool install --global dotnet-reportgenerator-globaltool && reportgenerator -reports:".\coverage\**\coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
+      
+    - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
