@@ -50,7 +50,7 @@ jobs:
      
     - name: Unit Tests Report Generation
       #if: ${{ github.ref == 'refs/heads/main' }}
-      run: dotnet tool install --global dotnet-reportgenerator-globaltool && reportgenerator -reports:".\coverage\**\coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
+      run: reportgenerator -reports:".\coverage\**\coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
       
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
