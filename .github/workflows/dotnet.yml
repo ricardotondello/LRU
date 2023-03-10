@@ -39,7 +39,7 @@ jobs:
         hide_complexity: true
         indicators: true
         output: both
-        thresholds: '80 90'
+        thresholds: '90 100'
     
     - name: Add Coverage PR Comment
       uses: marocchino/sticky-pull-request-comment@v2
@@ -50,7 +50,7 @@ jobs:
      
     - name: Unit Tests Report Generation
       #if: ${{ github.ref == 'refs/heads/main' }}
-      run: reportgenerator -reports:".\coverage\**\coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
+      run: dotnet reportgenerator -reports:".\coverage\**\coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
       
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
