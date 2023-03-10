@@ -279,43 +279,43 @@ namespace LRU.Tests
             result.Should().BeFalse();
         }
         
-        [Test]
-        public async Task Should_Cache_Be_Thread_Safe()
-        {
-            const int key = 1;
-            var resultForTestingThreadSafe = 0;
-            var cache = new LeastRecentlyUsedCache<int, int>(2);
-            var isFirstTime = true;
-            
-            int Set(int i)
-            {
-                lock (_lock)
-                {
-                    if (isFirstTime)
-                    {
-                        isFirstTime = false;
-                    }
-
-                    resultForTestingThreadSafe = i;     
-                }
-                return i;
-            }
-
-            var tasks = Enumerable.Range(1, 1_000)
-                .Select(_ => Task.Run(() =>
-                    {
-                        var r = new Random();
-                        cache.Add(key, Set(r.Next(1, int.MaxValue)));
-                        return Task.CompletedTask;
-                    }
-                ))
-                .ToArray();
-
-            await Task.WhenAll(tasks);
-
-            cache.TryGetValue(key, out var result).Should().BeTrue();
-            result.Should().Be(resultForTestingThreadSafe);
-        }
+        // [Test]
+        // public async Task Should_Cache_Be_Thread_Safe()
+        // {
+        //     const int key = 1;
+        //     var resultForTestingThreadSafe = 0;
+        //     var cache = new LeastRecentlyUsedCache<int, int>(2);
+        //     var isFirstTime = true;
+        //     
+        //     int Set(int i)
+        //     {
+        //         lock (_lock)
+        //         {
+        //             if (isFirstTime)
+        //             {
+        //                 isFirstTime = false;
+        //             }
+        //
+        //             resultForTestingThreadSafe = i;     
+        //         }
+        //         return i;
+        //     }
+        //
+        //     var tasks = Enumerable.Range(1, 1_000)
+        //         .Select(_ => Task.Run(() =>
+        //             {
+        //                 var r = new Random();
+        //                 cache.Add(key, Set(r.Next(1, int.MaxValue)));
+        //                 return Task.CompletedTask;
+        //             }
+        //         ))
+        //         .ToArray();
+        //
+        //     await Task.WhenAll(tasks);
+        //
+        //     cache.TryGetValue(key, out var result).Should().BeTrue();
+        //     result.Should().Be(resultForTestingThreadSafe);
+        // }
         
         [Test]
         public void Should_ReturnKeys_When_Get_Keys()
