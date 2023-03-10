@@ -54,7 +54,7 @@ jobs:
       
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.19
-      if: ${{ github.ref == 'refs/heads/main' }}
+      #if: ${{ github.ref == 'refs/heads/main' }}
       with:
         reports: 'coverage.xml'
         targetdir: 'coveragereport'
