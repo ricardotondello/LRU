@@ -55,8 +55,8 @@ jobs:
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.19
       #if: ${{ github.ref == 'refs/heads/main' }}
       with:
-        reports: 'LRU/coverage/**/coverage.cobertura.xml'
-        targetdir: 'LRU/coveragereport'
+        reports: 'LRU/LRU/coverage/**/coverage.cobertura.xml'
+        targetdir: 'LRU/LRU/coveragereport'
         reporttypes: 'Html'
         verbosity: 'Info'
       
