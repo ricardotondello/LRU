@@ -116,6 +116,7 @@ public class LeastRecentlyUsedCacheTests
         cache.Contains(new KeyValuePair<int, int>(3, 3)).Should().BeTrue();
         cache.ContainsKey(4).Should().BeTrue();
         cache.ContainsKey(2).Should().BeFalse();
+        cache.Contains(new KeyValuePair<int, int>(5, 5)).Should().BeFalse();
     }
 
     [Test]
@@ -268,7 +269,15 @@ public class LeastRecentlyUsedCacheTests
         cache[1] = 2;
         cache[1].Should().Be(2);
     }
-        
+     
+    [Test]
+    public void Should_ReturnDefaultValue_When_Get_The_Element_Is_Not_Present()
+    {
+        var cache = new LeastRecentlyUsedCache<int, int>(1) {new(1, 1)};
+
+        cache[10].Should().Be(default);
+    }
+    
     [Test]
     [TestCase(2)]
     public void Should_Not_Remove_Item_From_Cache(int capacity)
