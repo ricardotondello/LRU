@@ -1,16 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-	  <OutputType>Exe</OutputType>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="BenchmarkDotNet" Version="0.13.2"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\LRU\LRU.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LRU\LRU.csproj"/>
+    </ItemGroup>
 
 </Project>
