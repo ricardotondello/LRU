@@ -39,3 +39,13 @@ A Least Recently Used (LRU) Cache organizes items in order of use, allowing you 
         Console.WriteLine($"Client with Id: {clientSearchIdNotOnCache} not found cache."); //Client with Id: 1 not found cache.
     }
 ```
+
+## Contributing
+
+Contributions are welcome! If you find a bug or have a feature request, please open an issue on GitHub.
+If you would like to contribute code, please fork the repository and submit a pull request.
+
+## License
+
+This Library is licensed under the MIT License. 
+See [LICENSE](https://github.com/ricardotondello/LRU/blob/main/LICENSE) for more information.
