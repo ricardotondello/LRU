@@ -1,6 +1,7 @@
 # LRU
 
 ![Build status](https://github.com/ricardotondello/LRU/actions/workflows/dotnet.yml/badge.svg?branch=main)
+[![Qodana](https://github.com/ricardotondello/LRU/actions/workflows/code_quality.yml/badge.svg)](https://github.com/ricardotondello/LRU/actions/workflows/code_quality.yml)
 [![NuGet latest version](https://badgen.net/nuget/v/LRU/latest)](https://nuget.org/packages/LRU)
 [![NuGet downloads](https://img.shields.io/nuget/dt/LRU)](https://www.nuget.org/packages/LRU)
 
