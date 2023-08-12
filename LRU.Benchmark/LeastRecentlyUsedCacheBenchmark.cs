@@ -19,7 +19,7 @@ public class LeastRecentlyUsedCacheBenchmark
 
         for (var i = 1; i < 10_000; i++)
         {
-            Cache.TryGetValue(i, out var result);
+            Cache.TryGetValue(i, out _);
         }
 
     }
