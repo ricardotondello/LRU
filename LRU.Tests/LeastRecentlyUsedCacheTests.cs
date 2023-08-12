@@ -162,13 +162,6 @@ public class LeastRecentlyUsedCacheTests
     [Test]
     public void Should_GetEnumeratorOnIEnumerable_Items()
     {
-        IEnumerable AsWeakEnumerable(IEnumerable source)
-        {
-            foreach (object o in source)
-            {
-                yield return o;
-            }
-        }
         var cache = new LeastRecentlyUsedCache<int, int>(1);
         if (cache == null) throw new ArgumentNullException(nameof(cache));
 
@@ -176,7 +169,15 @@ public class LeastRecentlyUsedCacheTests
         var result = enumerableCache.Cast<KeyValuePair<int, int>>().Take(1).ToArray();
         result.GetEnumerator().MoveNext();
         result.GetEnumerator().Should().NotBeNull();
-                
+        return;
+
+        IEnumerable AsWeakEnumerable(IEnumerable source)
+        {
+            foreach (var o in source)
+            {
+                yield return o;
+            }
+        }
     }
         
     [Test]
@@ -295,21 +296,7 @@ public class LeastRecentlyUsedCacheTests
         var resultForTestingThreadSafe = 0;
         var cache = new LeastRecentlyUsedCache<int, int>(2);
         var isFirstTime = true;
-            
-        int Set(int i)
-        {
-            lock (_lock)
-            {
-                if (isFirstTime)
-                {
-                    isFirstTime = false;
-                }
-        
-                resultForTestingThreadSafe = i;     
-            }
-            return i;
-        }
-        
+
         var tasks = Enumerable.Range(1, 100)
             .Select(_ => Task.Run(() =>
                 {
@@ -324,6 +311,21 @@ public class LeastRecentlyUsedCacheTests
         
         cache.TryGetValue(key, out var result).Should().BeTrue();
         result.Should().Be(resultForTestingThreadSafe);
+        return;
+
+        int Set(int i)
+        {
+            lock (_lock)
+            {
+                if (isFirstTime)
+                {
+                    isFirstTime = false;
+                }
+        
+                resultForTestingThreadSafe = i;     
+            }
+            return i;
+        }
     }
         
     [Test]
