@@ -10,14 +10,14 @@
     <Description>This is a thread safe caching strategy implementation of Least Recently Used (LRU). It defines the policy to evict elements from the cache to make room for new elements when the cache is full, meaning it discards the least recently used items first.</Description>
     <RepositoryUrl>https://github.com/ricardotondello/LRU</RepositoryUrl>
     <Title>LRU</Title>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>NuGet.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Ricardo Tondello</Authors>
     <PackageIcon>LRU_icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\docs\NuGet.md" Pack="true" PackagePath="\" />
     <None Include="..\LICENSE" Pack="true" PackagePath="LICENSE" />
     <None Include="LRU_icon.png" Pack="true" PackagePath=""/>
   </ItemGroup>

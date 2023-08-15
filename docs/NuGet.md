@@ -1,10 +1,5 @@
 # LRU
 
-![Build status](https://github.com/ricardotondello/LRU/actions/workflows/dotnet.yml/badge.svg?branch=main)
-[![Qodana](https://github.com/ricardotondello/LRU/actions/workflows/code_quality.yml/badge.svg)](https://qodana.cloud/projects/3Bk9x/reports/4LRbM)
-[![NuGet latest version](https://badgen.net/nuget/v/LRU/latest)](https://nuget.org/packages/LRU)
-[![NuGet downloads](https://img.shields.io/nuget/dt/LRU)](https://www.nuget.org/packages/LRU)
-
 This is a thread safe caching strategy implementation of Least Recently Used (LRU). It defines the policy to evict elements from the cache to make room for new elements when the cache is full, meaning it discards the least recently used items first.
 
 A Least Recently Used (LRU) Cache organizes items in order of use, allowing you to quickly identify which item hasn't been used for the longest amount of time.
@@ -40,17 +35,3 @@ A Least Recently Used (LRU) Cache organizes items in order of use, allowing you 
         Console.WriteLine($"Client with Id: {clientSearchIdNotOnCache} not found cache."); //Client with Id: 1 not found cache.
     }
 ```
-
-## Contributing
-
-Contributions are welcome! If you find a bug or have a feature request, please open an issue on GitHub.
-If you would like to contribute code, please fork the repository and submit a pull request.
-
-## License
-
-This Library is licensed under the MIT License. 
-See [LICENSE](https://github.com/ricardotondello/LRU/blob/main/LICENSE) for more information.
-
-## Support
-
-<a href="https://www.buymeacoffee.com/ricardotondello" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
