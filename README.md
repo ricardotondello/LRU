@@ -1,8 +1,8 @@
 # LRU
 
 ![Build status](https://github.com/ricardotondello/LRU/actions/workflows/dotnet.yml/badge.svg?branch=main)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=awesome-ric_lru&metric=alert_status)](https://sonarcloud.io/dashboard?id=awesome-ric_lru)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=awesome-ric_lru&metric=coverage)](https://sonarcloud.io/component_measures?id=awesome-ric_lru&metric=coverage)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ricardotondello_LRU&metric=alert_status)](https://sonarcloud.io/dashboard?id=ricardotondello_LRU)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ricardotondello_LRU&metric=coverage)](https://sonarcloud.io/component_measures?id=ricardotondello_LRU&metric=coverage)
 [![NuGet latest version](https://badgen.net/nuget/v/LRU/latest)](https://nuget.org/packages/LRU)
 [![NuGet downloads](https://img.shields.io/nuget/dt/LRU)](https://www.nuget.org/packages/LRU)
 
