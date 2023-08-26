@@ -1,8 +1,8 @@
 # LRU
 
 ![Build status](https://github.com/ricardotondello/LRU/actions/workflows/dotnet.yml/badge.svg?branch=main)
-[![Qodana](https://github.com/ricardotondello/LRU/actions/workflows/code_quality.yml/badge.svg)](https://qodana.cloud/projects/3Bk9x/reports/4LRbM)
-[![Code Coverage](https://img.shields.io/badge/Code_Coverage-Click_Here-green)](https://ricardotondello.github.io/LRU/unittests/)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ricardotondello_LRU&metric=alert_status)](https://sonarcloud.io/dashboard?id=ricardotondello_LRU)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ricardotondello_LRU&metric=coverage)](https://sonarcloud.io/component_measures?id=ricardotondello_LRU&metric=coverage)
 [![NuGet latest version](https://badgen.net/nuget/v/LRU/latest)](https://nuget.org/packages/LRU)
 [![NuGet downloads](https://img.shields.io/nuget/dt/LRU)](https://www.nuget.org/packages/LRU)
 
