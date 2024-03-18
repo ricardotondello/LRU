@@ -10,6 +10,6 @@ on:
 
 jobs:
   sonar-cloud:
-    uses: ricardotondello/shared-workflows/.github/workflows/code_quality.yml@main
+    uses: ricardotondello/shared-workflows/.github/workflows/sonarcloud.yml@main
     secrets:
       inherit
