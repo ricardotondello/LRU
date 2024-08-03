@@ -5,7 +5,6 @@
     <Nullable>disable</Nullable>
     <LangVersion>default</LangVersion>
     <IsPackable>true</IsPackable>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>Ricardo Tondello</Copyright>
     <Description>This is a thread safe caching strategy implementation of Least Recently Used (LRU). It defines the policy to evict elements from the cache to make room for new elements when the cache is full, meaning it discards the least recently used items first.</Description>
     <RepositoryUrl>https://github.com/ricardotondello/LRU</RepositoryUrl>
@@ -14,6 +13,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Ricardo Tondello</Authors>
     <PackageIcon>rt.png</PackageIcon>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
