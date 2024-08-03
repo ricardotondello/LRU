@@ -48,41 +48,8 @@ public class LeastRecentlyUsedCacheTests
         result.Should().BeFalse();
     }
 
-
-    public static IEnumerable<object[]> TestCaseSourceForExpectedValues()
-    {
-        return new List<object[]>
-        {
-            new object[]
-            {
-                2, new[,]
-                {
-                    { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 }
-                },
-                3, 3
-            },
-            new object[]
-            {
-                50, new[,]
-                {
-                    { 10, 90 }, { 20, 77 }, { 33, 5 }, { 35, 44 }, { 45, 89 }
-                },
-                45, 89
-            },
-            //repeated data test
-            new object[]
-            {
-                2, new[,]
-                {
-                    { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 }, { 4, 4 }, { 4, 4 }, { 4, 4 }, { 4, 4 }
-                },
-                3, 3
-            }
-        };
-    }
-
     [Theory]
-    [MemberData(nameof(TestCaseSourceForExpectedValues))]
+    [ClassData(typeof(LruTestData))]
     public void Should_Return_Expected_Value(int capacity, int[,] values, int key, int expected)
     {
         var cache = new LeastRecentlyUsedCache<int, int>(capacity);
@@ -347,5 +314,35 @@ public class LeastRecentlyUsedCacheTests
         var cache = new LeastRecentlyUsedCache<int, int>(1) { new(1, 1) };
 
         cache.Keys.Should().BeEquivalentTo(new List<int> { 1 });
+    }
+
+    public class LruTestData : TheoryData<int, int[,], int, int>
+    {
+        public LruTestData()
+        {
+            Add(
+                2, new[,]
+                {
+                    { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 }
+                },
+                3, 3
+            );
+
+            Add(
+                50, new[,]
+                {
+                    { 10, 90 }, { 20, 77 }, { 33, 5 }, { 35, 44 }, { 45, 89 }
+                },
+                45, 89
+            );
+            //repeated data test
+            Add(
+                2, new[,]
+                {
+                    { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 }, { 4, 4 }, { 4, 4 }, { 4, 4 }, { 4, 4 }
+                },
+                3, 3
+            );
+        }
     }
 }
