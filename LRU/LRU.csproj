@@ -14,12 +14,27 @@
     <Authors>Ricardo Tondello</Authors>
     <PackageIcon>rt.png</PackageIcon>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    
+    <!-- Enable symbols for debugging -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    
+    <!-- Enable source linking and repository access -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EnableSourceLink>true</EnableSourceLink>
+    
+    <!-- Include source files for better IDE experience -->
+    <IncludeSource>true</IncludeSource>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\docs\NuGet.md" Pack="true" PackagePath="\" />
     <None Include="..\LICENSE" Pack="true" PackagePath="LICENSE" />
     <None Include="rt.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
   </ItemGroup>
   
 </Project>
