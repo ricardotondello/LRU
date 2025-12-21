@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="LRU.Tests/LRU.Tests.csproj" />
+  <Project Path="LRU/LRU.csproj" />
+</Solution>
