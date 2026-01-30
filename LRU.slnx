@@ -1,4 +1,8 @@
 <Solution>
-  <Project Path="LRU.Tests/LRU.Tests.csproj" />
-  <Project Path="LRU/LRU.csproj" />
+  <Folder Name="/src/">
+    <Project Path="LRU/LRU.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="LRU.Tests/LRU.Tests.csproj" />
+  </Folder>
 </Solution>
