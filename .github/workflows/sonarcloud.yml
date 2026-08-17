@@ -11,5 +11,7 @@ on:
 jobs:
   sonar-cloud:
     uses: ricardotondello/shared-workflows/.github/workflows/sonarcloud.yml@main
+    with:
+      test_file_path: tests/LRU.Tests/bin/Debug/net10.0
     secrets:
       inherit

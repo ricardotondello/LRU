@@ -24,6 +24,32 @@ public class LeastRecentlyUsedCacheTests
     }
 
     [Theory]
+    [InlineData(-1)]
+    [InlineData(0)]
+    public void Should_Use_ThreadPool_MaxThreads_When_ConcurrencyLevel_Is_Invalid(int concurrencyLevel)
+    {
+        var cache = new LeastRecentlyUsedCache<int, int>(1, concurrencyLevel);
+
+        cache.Add(1, 1);
+
+        Assert.True(cache.TryGetValue(1, out var result));
+        Assert.Equal(1, result);
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(4)]
+    public void Should_Use_Provided_ConcurrencyLevel_When_Valid(int concurrencyLevel)
+    {
+        var cache = new LeastRecentlyUsedCache<int, int>(1, concurrencyLevel);
+
+        cache.Add(1, 1);
+
+        Assert.True(cache.TryGetValue(1, out var result));
+        Assert.Equal(1, result);
+    }
+
+    [Theory]
     [InlineData(1)]
     [InlineData(2)]
     [InlineData(100)]
